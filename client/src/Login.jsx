@@ -19,7 +19,7 @@ export const Login = () => {
     });
 
     dispatch(setAuthToken(token));
-    navigate("/")
+    navigate("/dashboard");
   }
 
   return (

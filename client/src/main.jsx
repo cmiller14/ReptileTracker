@@ -8,6 +8,7 @@ import store from './store/store';
 import { Home } from './Home.jsx';
 import { Login } from './Login.jsx';
 import { SignUp } from './SignUp.jsx';
+import { Dashboard } from './Dashboard.jsx';
 import { Api, ApiContext } from './utils/api.js';
 
 const router = createHashRouter([
@@ -27,6 +28,10 @@ const router = createHashRouter([
         path: "/sign_up",
         element: <SignUp />
       },
+      {
+        path: "/dashboard",
+        element: <Dashboard />
+      }
     ]
   }
 ])

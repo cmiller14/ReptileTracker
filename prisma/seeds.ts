@@ -15,8 +15,12 @@ async function main() {
       lastName: "ADMIN",
       email: process.env.ADMIN_EMAIL!!,
       password_hash: bcrypt.hashSync(process.env.ADMIN_PASSWORD!!),
-      profile: {
-        create: {}
+      reptiles: {
+        create: {
+          id: 1,
+          name: "snake",
+          sex: "m",
+        }
       }
     },
     update: {
@@ -24,6 +28,8 @@ async function main() {
       password_hash: bcrypt.hashSync(process.env.ADMIN_PASSWORD!!),
     }
   })
+
+
   // TODO: put default data in the database
   console.log(process.env);
 }

@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { authMiddleware } from "../middleware/authentication";
 import { UsersRepository } from "../repositories/users_respository";
+import { ReptilesRepository } from "../repositories/reptiles_repository";
 
 // /users/...
 export const buildUsersController = (usersRepository: UsersRepository) => {
@@ -22,7 +23,7 @@ export const buildUsersController = (usersRepository: UsersRepository) => {
   router.get("/me", authMiddleware, (req, res) => {
     res.json({ user: req.user });
   });
-
+  
   return router;
 }
 

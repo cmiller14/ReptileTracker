@@ -22,7 +22,6 @@ export class UsersRepository {
     return this.instance;
   }
 
-
   async createUser({email, password, firstName, lastName}: CreateUserPayload) {
     return this.db.user.create({
       data: {
@@ -30,9 +29,12 @@ export class UsersRepository {
         password_hash: bcrypt.hashSync(password),
         firstName: firstName,
         lastName: lastName,
-        profile: {
-          create: {}
-        }
+        reptiles: {
+
+        },
+        schedules: {
+
+        }, 
       }
     });
   }
@@ -44,4 +46,5 @@ export class UsersRepository {
       },
     });
   }
+
 }
