@@ -10,10 +10,20 @@ function printTrueFalse(day) {
     }
 }
 
+function getSchedule(reptile, schedules) {
+    for (let schedule of schedules) {
+        if (schedule.reptileId == reptile.id) {
+            return schedule;
+        }
+    }
+    return {}; 
+}
+
 function Schedule(props) {
     return (
         <>
             <table>
+                <tbody>
                 <tr>
                     <th>Reptile</th>
                     <th>Monday</th>
@@ -26,19 +36,22 @@ function Schedule(props) {
                 </tr>
                 
                 {props.reptiles.map((reptile) => {
+                    const schedule = getSchedule(reptile, props.schedules);
+                    console.log(schedule);
                     return (
                     <tr key={reptile.id}>
                         <td>{reptile.name}</td>
-                        <td>{printTrueFalse(reptile.monday)}</td>
-                        <td>{printTrueFalse(reptile.tuesday)}</td>
-                        <td>{printTrueFalse(reptile.wednesday)}</td>
-                        <td>{printTrueFalse(reptile.thursday)}</td>
-                        <td>{printTrueFalse(reptile.friday)}</td>
-                        <td>{printTrueFalse(reptile.saturday)}</td>
-                        <td>{printTrueFalse(reptile.sunday)}</td>
+                        <td>{printTrueFalse(schedule.monday)}</td>
+                        <td>{printTrueFalse(schedule.tuesday)}</td>
+                        <td>{printTrueFalse(schedule.wednesday)}</td>
+                        <td>{printTrueFalse(schedule.thursday)}</td>
+                        <td>{printTrueFalse(schedule.friday)}</td>
+                        <td>{printTrueFalse(schedule.saturday)}</td>
+                        <td>{printTrueFalse(schedule.sunday)}</td>
                     </tr>
                     )
                 })}
+                </tbody>
             </table>
         </>
     )

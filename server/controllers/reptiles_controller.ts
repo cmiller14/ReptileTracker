@@ -6,35 +6,33 @@ import { ReptilesRepository } from "../repositories/reptiles_repository";
 export const buildReptilesController = (reptilesRepository: ReptilesRepository) => {
   const router = Router();
 
+  // create a reptile
   router.post("/", async (req, res) => {
     const reptile = await reptilesRepository.createReptile(req.body);
     res.json({reptile});
   });
 
+  // delete a reptile
+  router.delete("/:reptileId", async (req, res) => {
+    const reptileId = Number(req.params['reptileId']);
+    const deleted = await reptilesRepository.deleteReptile(reptileId);
+    res.json({deleted});
+  });
+
+  // update a reptile
+  router.put("/:reptileId", async (req, res) => {
+    const reptile = await reptilesRepository.updateReptile(req.body);
+    res.json({reptile});
+  });
+
+  // get a specific reptile
   router.get("/:reptileId", async (req, res) => {
     const reptileId = Number(req.params['reptileId']);
     const reptile = await reptilesRepository.getReptileById(reptileId)
     res.json({ reptile });
   });
 
-  router.get("/:reptileId/feeding", authMiddleware, async (req, res) => {
-    const reptileId = Number(req.params['reptileId']);
-    const feeding = await reptilesRepository.getReptileFeeding(reptileId);
-
-  });
-
-  router.get("/:reptileId/schedule", authMiddleware, async (req, res) => {
-    const reptileId = Number(req.params['reptileId']);
-    const schedule = await reptilesRepository.getReptileSchedule(reptileId);
-
-  });
-
-  router.get("/:reptileId/husbandryrecord", authMiddleware, async (req, res) => {
-    const reptileId = Number(req.params['reptileId']);
-    const husbandryRecord = await reptilesRepository.getReptileHusbandryRecord(reptileId);
-
-  });
-
+  // get all reptiles for a user
   router.get("/user/:userId", async (req, res) => {
     //TODO: may need to check if the req.user.id matches the userId param
     const userId = Number(req.params['userId']);

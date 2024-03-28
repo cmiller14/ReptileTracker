@@ -7,6 +7,19 @@ export type CreateSchedulePayload = {
     description:    string,
 }
 
+export type UpdateSchedulePayload = {
+    id:             number,
+    monday:         boolean,
+    tuesday:        boolean,
+    wednesday:      boolean,
+    thursday:       boolean,
+    friday:         boolean,
+    saturday:       boolean,
+    sunday:         boolean,
+    type:           string,
+    description:    string,
+}
+
 export class ScheduleRepository {
     private db: PrismaClient
     private static instance: ScheduleRepository
@@ -22,21 +35,48 @@ export class ScheduleRepository {
       }
 
     async createSchedule({userId, reptileId, type, description}: CreateSchedulePayload) {
-    return this.db.schedule.create({
-        data: {
-        userId: userId,
-        reptileId: reptileId,
-        type: type,
-        description: description,
-        monday: false,
-        tuesday: false,
-        wednesday: false,
-        thursday: false,
-        friday: false,
-        saturday: false,
-        sunday: false,
-        }
-    });
+        return this.db.schedule.create({
+            data: {
+            userId: userId,
+            reptileId: reptileId,
+            type: type,
+            description: description,
+            monday: false,
+            tuesday: false,
+            wednesday: false,
+            thursday: false,
+            friday: false,
+            saturday: false,
+            sunday: false,
+            }
+        });
+    }
+
+    async updateSchedule(req: UpdateSchedulePayload) {
+        return this.db.schedule.update({
+            where: {
+                id: req.id,
+            },
+            data: {
+                monday: req.monday,
+                tuesday: req.tuesday,
+                wednesday: req.wednesday,
+                thursday: req.thursday,
+                friday: req.friday,
+                saturday: req.saturday,
+                sunday: req.saturday,
+                description: req.description,
+                type: req.type,
+            }
+        })
+    }
+
+    async deleteSchedule(id: number) {
+        return this.db.schedule.delete({
+            where: {
+                id
+            },
+        });
     }
 
     async getScheduleById(id: number) {
@@ -48,10 +88,18 @@ export class ScheduleRepository {
       }
 
     async getScheduleByReptile(id: number) {
-    return this.db.schedule.findUnique({
-        where: {
-            reptileId: id
-        }
-     });
+        return this.db.schedule.findUnique({
+            where: {
+                reptileId: id
+            }
+        });
+    }
+
+    async getSchedulesByUser(id: number) {
+        return this.db.schedule.findMany({
+            where: {
+                userId: id,
+            },
+        });
     }
 }

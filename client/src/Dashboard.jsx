@@ -13,6 +13,7 @@ export const Dashboard = () => {
 
     const [reptiles, setReptiles] = useState([]);
     const [user, setUser] = useState(null);
+    const [schedules, setSchedules] = useState([]);
 
     async function getUser() {
         const {user} = await api.get("/users/me");
@@ -22,6 +23,11 @@ export const Dashboard = () => {
     async function getReptiles() {
         const {reptiles} = await api.get(`/reptiles/user/${user.id}`);
         setReptiles(reptiles);
+    }
+
+    async function getSchedules() {
+        const {schedules} = await api.get(`/schedules/user/${user.id}`);
+        setSchedules(schedules);
     }
     
     useEffect(() => {
@@ -33,6 +39,12 @@ export const Dashboard = () => {
             getReptiles();
         }
     }, [user]);
+
+    useEffect(() => {
+        if (reptiles && user) {
+            getSchedules();
+        }
+    }, [reptiles]);
 
 
     // useEffect(() => {
@@ -47,6 +59,7 @@ export const Dashboard = () => {
             <h2>Schedules</h2>
             <Schedule
             reptiles={reptiles}
+            schedules={schedules}
             />
             <h2>Reptiles</h2>
             <h2>Create Reptile</h2>

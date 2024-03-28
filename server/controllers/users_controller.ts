@@ -1,15 +1,13 @@
-import { PrismaClient } from "@prisma/client";
 import { Router } from "express";
 import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
 import { authMiddleware } from "../middleware/authentication";
 import { UsersRepository } from "../repositories/users_respository";
-import { ReptilesRepository } from "../repositories/reptiles_repository";
 
 // /users/...
 export const buildUsersController = (usersRepository: UsersRepository) => {
   const router = Router();
 
+  // create a user
   router.post("/", async (req, res) => {
     const user = await usersRepository.createUser(req.body);
 
@@ -20,10 +18,11 @@ export const buildUsersController = (usersRepository: UsersRepository) => {
     res.json({ user, token });
   });
 
+  // get a user
   router.get("/me", authMiddleware, (req, res) => {
     res.json({ user: req.user });
   });
-  
+
   return router;
 }
 

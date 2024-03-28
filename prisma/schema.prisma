@@ -27,22 +27,22 @@ model User {
 }
 
 model Reptile {
-  id              Int     @id @default(autoincrement())
-  userId          Int
-  user            User    @relation(fields: [userId], references: [id])
-  species         String?
-  name            String
-  sex             String
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  feeding         Feeding?
-  husbandryRecord HusbandryRecord?
-  Schedule        Schedule?
+  id                Int     @id @default(autoincrement())
+  userId            Int
+  user              User    @relation(fields: [userId], references: [id])
+  species           String?
+  name              String
+  sex               String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  feeding           Feeding[]
+  husbandryRecord   HusbandryRecord?
+  Schedule          Schedule?
 }
 
 model Feeding {
   id              Int     @id @default(autoincrement())
-  reptileId       Int     @unique
+  reptileId       Int     
   reptile         Reptile @relation(fields: [reptileId], references: [id])
   foodItem        String
   createdAt       DateTime @default(now())

@@ -9,6 +9,15 @@ export type CreateHusbandryPayload = {
 
 }
 
+export type UpdateHusbandryPayload = {
+    id:             number,
+    length:         number,
+    weight:         number,
+    temperature:    number,
+    humidity:       number,   
+
+}
+
 export class HusbandryRepository {
     private db: PrismaClient
     private static instance: HusbandryRepository
@@ -24,15 +33,37 @@ export class HusbandryRepository {
       }
 
     async createHusbandry({reptileId, length, weight, temperature, humidity}: CreateHusbandryPayload) {
-    return this.db.husbandryRecord.create({
-        data: {
-        reptileId:   reptileId,
-        length:      length,
-        weight:      weight,
-        temperature: temperature,
-        humidity:    humidity,
-        }
-    });
+        return this.db.husbandryRecord.create({
+            data: {
+            reptileId:   reptileId,
+            length:      length,
+            weight:      weight,
+            temperature: temperature,
+            humidity:    humidity,
+            }
+        });
+    }
+
+    async updateHusbandry({id, length, weight, temperature, humidity}: UpdateHusbandryPayload) {
+        return this.db.husbandryRecord.update({
+            where: {
+                id: id,
+            },
+            data: {
+                length: length,
+                weight: weight,
+                temperature: temperature,
+                humidity: humidity,
+            }
+        });
+    }
+
+    async deleteHusbandry(id: number) {
+        return this.db.husbandryRecord.delete({
+            where: {
+                id: id,
+            },
+        });
     }
 
     async getHusbandryById(id: number) {

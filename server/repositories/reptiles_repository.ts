@@ -6,6 +6,14 @@ export type CreateReptilePayload = {
   sex: string,
 }
 
+export type UpdateReptilePayload = {
+    species: string,
+    name: string,
+    sex: string,
+    id: number,
+}
+
+
 export class ReptilesRepository {
   private db: PrismaClient
   private static instance: ReptilesRepository
@@ -30,43 +38,33 @@ export class ReptilesRepository {
     });
   }
 
-    async getReptileById(id: number) {
+  async deleteReptile(id: number) {
+    return this.db.reptile.delete({
+        where: {
+            id: id,
+        },
+    });
+  }
+
+  async updateReptile({species, name, sex, id}: UpdateReptilePayload) {
+    return this.db.reptile.update({
+        where: {
+            id: id
+        },
+        data: {
+            species: species,
+            name: name,
+            sex: sex,
+        },
+    })
+  }
+
+  async getReptileById(id: number) {
     return this.db.reptile.findUnique({
-      where: {
+        where: {
         id: id
-      },
-    });
-  }
-
-  async getReptileFeeding(id: number) {
-    const reptile = this.db.reptile.findUnique({
-        where: {
-            id: id
         },
     });
-
-    return reptile.feeding;
-
-  }
-
-  async getReptileSchedule(id: number) {
-    const reptile = this.db.reptile.findUnique({
-        where: {
-            id: id
-        },
-    });
-
-    return reptile.Schedule;
-  }
-
-  async getReptileHusbandryRecord(id: number) {
-    const reptile = this.db.reptile.findUnique({
-        where: {
-            id: id
-        },
-    });
-
-    return reptile.husbandryRecord;
   }
 
   async getUserReptiles(id: number) {
