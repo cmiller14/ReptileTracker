@@ -75,7 +75,7 @@ export class HusbandryRepository {
       }
 
     async getHusbandryByReptile(id: number) {
-    return this.db.husbandryRecord.findUnique({
+    return this.db.husbandryRecord.findMany({
         where: {
             reptileId: id
             }

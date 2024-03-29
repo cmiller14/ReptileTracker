@@ -5,6 +5,13 @@ export type CreateSchedulePayload = {
     reptileId:      number,
     type:           string,
     description:    string,
+    monday:         boolean,
+    tuesday:        boolean,
+    wednesday:      boolean,
+    thursday:       boolean,
+    friday:         boolean,
+    saturday:       boolean,
+    sunday:         boolean,
 }
 
 export type UpdateSchedulePayload = {
@@ -34,20 +41,20 @@ export class ScheduleRepository {
         return this.instance;
       }
 
-    async createSchedule({userId, reptileId, type, description}: CreateSchedulePayload) {
+    async createSchedule(req: CreateSchedulePayload) {
         return this.db.schedule.create({
             data: {
-            userId: userId,
-            reptileId: reptileId,
-            type: type,
-            description: description,
-            monday: false,
-            tuesday: false,
-            wednesday: false,
-            thursday: false,
-            friday: false,
-            saturday: false,
-            sunday: false,
+            userId: req.userId,
+            reptileId: req.reptileId,
+            monday: req.monday,
+            tuesday: req.tuesday,
+            wednesday: req.wednesday,
+            thursday: req.thursday,
+            friday: req.friday,
+            saturday: req.saturday,
+            sunday: req.saturday,
+            description: req.description,
+            type: req.type,
             }
         });
     }
@@ -88,7 +95,7 @@ export class ScheduleRepository {
       }
 
     async getScheduleByReptile(id: number) {
-        return this.db.schedule.findUnique({
+        return this.db.schedule.findMany({
             where: {
                 reptileId: id
             }
