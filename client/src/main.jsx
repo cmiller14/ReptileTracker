@@ -10,6 +10,7 @@ import { Login } from './Login.jsx';
 import { SignUp } from './SignUp.jsx';
 import { Dashboard } from './Dashboard.jsx';
 import { Api, ApiContext } from './utils/api.js';
+import { Reptile } from './Reptile.jsx';
 
 const router = createHashRouter([
   {
@@ -31,6 +32,10 @@ const router = createHashRouter([
       {
         path: "/dashboard",
         element: <Dashboard />
+      },
+      {
+        path: "/reptile/:id",
+        element: <Reptile/>
       }
     ]
   }

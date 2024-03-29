@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { requireLogin } from "./utils/require_login";
 import { useApi } from "./utils/use_api";
 import Schedule from './components/schedule';
+import ReptileList from './components/list_items/ReptileList';
 import { useEffect, useState } from "react";
 
 
@@ -12,8 +13,11 @@ export const Dashboard = () => {
     requireLogin();
 
     const [reptiles, setReptiles] = useState([]);
+    const [reptile, setReptile] = useState([]);
     const [user, setUser] = useState(null);
     const [schedules, setSchedules] = useState([]);
+    const [reptileName, setReptileName] = useState("");
+    const [reptileSpecies, setReptileSpecies] = useState("");
 
     async function getUser() {
         const {user} = await api.get("/users/me");
@@ -46,6 +50,10 @@ export const Dashboard = () => {
         }
     }, [reptiles]);
 
+    function launchPopup() {
+
+    }
+
 
     // useEffect(() => {
     //     //when the reptiles change i should reload the data on the ui
@@ -54,7 +62,6 @@ export const Dashboard = () => {
 
     return (
         <>
-        <div>
             <h1>Dashboard</h1>
             <h2>Schedules</h2>
             <Schedule
@@ -62,13 +69,21 @@ export const Dashboard = () => {
             schedules={schedules}
             />
             <h2>Reptiles</h2>
-            <h2>Create Reptile</h2>
-        </div>
-        
-        <button onClick={e => navigate("/")}>
-            Home
-        </button>
-    
+            <button>Create Reptile</button>
+            {
+                reptiles.map((reptile) => (
+                    <ReptileList
+                    key={reptile.id}
+                    name={reptile.name}
+                    species={reptile.species}
+                    id={reptile.id}
+                    navigate={navigate}
+                    />
+                ))
+            }
+            <button onClick={e => navigate("/")}>
+                Home
+            </button>
         </>
     )
 }
