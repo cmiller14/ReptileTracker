@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { requireLogin } from "./utils/require_login";
 import { useApi } from "./utils/use_api";
-import Schedule from './components/schedule';
+import Schedule from './components/Schedule';
 import ReptileList from './components/list_items/ReptileList';
 import { useEffect, useState } from "react";
 
@@ -26,6 +26,7 @@ export const Dashboard = () => {
 
     async function getReptiles() {
         const {reptiles} = await api.get(`/reptiles/user/${user.id}`);
+        console.log(reptiles);
         setReptiles(reptiles);
     }
 

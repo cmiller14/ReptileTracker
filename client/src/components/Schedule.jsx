@@ -37,7 +37,6 @@ function Schedule(props) {
                 
                 {props.reptiles.map((reptile) => {
                     const schedule = getSchedule(reptile, props.schedules);
-                    console.log(schedule);
                     return (
                     <tr key={reptile.id}>
                         <td>{reptile.name}</td>

@@ -27,11 +27,11 @@ export const buildHusbandryController = (husbandryRepository: HusbandryRepositor
         res.json({husbandry});
     })
   
-    // get husbandry for a reptile
+    // get husbandies for a reptile
     router.get("/reptile/:reptileId", async (req, res) => {
         const reptileId = Number(req.params['reptileId']);
-        const feeding = await husbandryRepository.getHusbandryByReptile(reptileId);
-        res.json({feeding});
+        const records = await husbandryRepository.getHusbandryByReptile(reptileId);
+        res.json({records});
     });
     
     return router;

@@ -5,7 +5,7 @@ function App() {
   const authToken = useSelector(state => state.application.authToken)
   return (
     <div>
-      <nav className="my-nav"><h2>Reptile Tracker</h2>{
+      <nav className="my-nav"><h1>Reptile Tracker</h1>{
         (
           <>
             <Link to="/sign_up"> Create Account </Link>

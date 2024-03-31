@@ -17,7 +17,7 @@ function Husbandry(props) {
                                 type="number"
                                 step="0.01"
                                 value={props.length}
-                                onChange={e => props.setLength(e.target.value)}>
+                                onChange={e => props.setLength(e.target.valueAsNumber)}>
                             </input>
                         </label>
                         <label className="input-element">
@@ -26,7 +26,7 @@ function Husbandry(props) {
                                 type="number"
                                 step="0.01"
                                 value={props.weight}
-                                onChange={e => props.setWeight(e.target.value)}>
+                                onChange={e => props.setWeight(e.target.valueAsNumber)}>
                             </input>
                         </label>
                         <label className="input-element">
@@ -35,7 +35,7 @@ function Husbandry(props) {
                                 type="number"
                                 step="0.01"
                                 value={props.temperature}
-                                onChange={e => props.setTemperature(e.target.value)}>
+                                onChange={e => props.setTemperature(e.target.valueAsNumber)}>
                             </input>
                         </label>
                         <label className="input-element">
@@ -44,7 +44,7 @@ function Husbandry(props) {
                                 type="number"
                                 step="0.01"
                                 value={props.humidity}
-                                onChange={e => props.setHumidity(e.target.value)}>
+                                onChange={e => props.setHumidity(e.target.valueAsNumber)}>
                             </input>
                         </label>
                         

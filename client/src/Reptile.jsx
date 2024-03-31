@@ -6,6 +6,9 @@ import ReptilePopup from "./components/create_items/ReptilePopup";
 import Feeding from "./components/create_items/Feeding";
 import Husbandry from "./components/create_items/Husbandry";
 import ReptileSchedule from "./components/create_items/ReptileSchedule";
+import FeedingList from "./components/list_items/feedingList";
+import HusbandryList from "./components/list_items/husbandryList";
+import ScheduleList from "./components/list_items/scheduleList";
 
 
 
@@ -24,9 +27,9 @@ export const Reptile = () => {
     const [createScheduleTrigger, setCreateScheduleTrigger] = useState(false);
     // objects
     const [reptile, setReptile] = useState(null);
-    const [feedings, setFeedings] = useState(null);
-    const [husbandryRecords, setHusbandryRecords] = useState(null);
-    const [schedules, setSchedules] = useState(null);
+    const [feedings, setFeedings] = useState([]);
+    const [husbandryRecords, setHusbandryRecords] = useState([]);
+    const [schedules, setSchedules] = useState([]);
     const [user, setUser] = useState(null);
     // reptile update values
     const [reptileNameUpdate, setReptileNameUpdate] = useState("");
@@ -51,9 +54,20 @@ export const Reptile = () => {
     const [description, setDescription] = useState("");
 
     useEffect(() => {
-        getReptile();
         getUser();
     }, []);
+
+    useEffect(() => {
+        if (user) {
+            getReptile();
+        }
+    }, [user]);
+
+    useEffect(() => {
+        getFeedings();
+        getHusbandryRecords();
+        getSchedules();
+    }, [reptile]);
 
     async function getUser() {
         const {user} = await api.get("/users/me");
@@ -68,8 +82,26 @@ export const Reptile = () => {
     }
 
     async function getFeedings() {
-        const {feedings} = await api.get(`/feeding/reptile/${reptile.id}`);
-        setFeedings(feedings);
+        if (reptile) {
+            const feedings = await api.get(`/feeding/reptile/${reptile.id}`);
+            setFeedings(feedings.feeding);
+        }
+    }
+
+    async function getHusbandryRecords() {
+        if (reptile) {
+            const husbandryRecords = await api.get(`/husbandry/reptile/${reptile.id}`);
+            console.log(husbandryRecords.records);
+            setHusbandryRecords(husbandryRecords.records);
+        }
+    }
+
+    async function getSchedules() {
+        if (reptile) {
+            const schedules = await api.get(`/schedules/reptile/${reptile.id}`);
+            console.log(schedules.schedule);
+            setSchedules(schedules.schedule);
+        }
     }
 
     async function createFeeding() {
@@ -102,6 +134,11 @@ export const Reptile = () => {
             humidity: humidity
 
         });
+
+        setLength(0);
+        setWeight(0);
+        setTemperature(0);
+        setHumidity(0);
         getReptile();
     }
 
@@ -120,9 +157,6 @@ export const Reptile = () => {
             type: type,
             description: description
         });
-
-        console.log(res)
-
         setType("clean");
         setDescription("");
         setMonday(false);
@@ -132,6 +166,8 @@ export const Reptile = () => {
         setFriday(false);
         setSaturday(false);
         setSunday(false);
+
+        getReptile();
 
     }
 
@@ -146,12 +182,43 @@ export const Reptile = () => {
             <div>
                 <h3>Feedings</h3>
             </div>
+                {
+                    feedings.map((feeding) => (
+                        <FeedingList
+                        key={feeding.id}
+                        foodItem={feeding.foodItem}
+                        createdAt={feeding.createdAt}
+                        />
+                    ))
+                }
+
             <div>
                 <h3>Husbandry Records</h3>
             </div>
+            {
+                husbandryRecords.map((record) => (
+                    <HusbandryList
+                    key={record.id}
+                    temperature={record.temperature}
+                    length={record.length}
+                    weight={record.weight}
+                    humidity={record.humidity}
+                    createdAt={record.createdAt}
+                    />
+                ))
+            }
             <div>
                 <h3>Schedules</h3>
             </div>
+            {
+                schedules.map((schedule) => (
+                    <ScheduleList
+                    key={schedule.id}
+                    
+                    />
+                ))
+            }
+
 
             <ReptilePopup
             trigger={updateReptileTrigger}
