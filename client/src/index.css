@@ -23,6 +23,10 @@ body {
   min-height: 100vh;
 }
 
+table, th, td {
+  border: 1px solid;
+}
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
@@ -117,3 +121,15 @@ button:focus-visible {
 .input-element {
   margin: 1em;
 }
+
+.scroll { 
+  /* enable div scrolling */ 
+  overflow: scroll; 
+  height: 300px; 
+  border: 10px black solid; 
+  width: 100%;
+  padding: 2%; 
+  margin: 0 auto; 
+  white-space: nowrap; 
+  font-size: large; 
+} 

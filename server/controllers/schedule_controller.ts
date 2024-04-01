@@ -24,6 +24,7 @@ export const buildScheduleController = (scheduleRepository: ScheduleRepository) 
     router.delete("/:scheduleId", async (req, res) => {
         const scheduleId = Number(req.params['scheduleId']);
         const schedule = await scheduleRepository.deleteSchedule(scheduleId);
+        res.json({schedule});
     })
   
     // get a schedule for a reptile

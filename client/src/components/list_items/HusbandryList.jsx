@@ -5,7 +5,7 @@ export default HusbandryList;
 function HusbandryList(props) {
     return (
         <>
-        <div className="stuff-box">
+        <div className="stuff-box" onClick={() => props.delete(props.id, "husbandry")}>
             <h4>
                 Reptile Length: {props.length}
             </h4>

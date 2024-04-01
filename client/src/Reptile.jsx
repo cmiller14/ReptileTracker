@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom"
+import { redirect, useLocation } from "react-router-dom"
 import { useApi } from "./utils/use_api";
 import { requireLogin } from "./utils/require_login";
 import ReptilePopup from "./components/create_items/ReptilePopup";
@@ -9,6 +9,7 @@ import ReptileSchedule from "./components/create_items/ReptileSchedule";
 import FeedingList from "./components/list_items/feedingList";
 import HusbandryList from "./components/list_items/husbandryList";
 import ScheduleList from "./components/list_items/scheduleList";
+import DeletePopup from "./components/list_items/DeletePopup";
 
 
 
@@ -25,6 +26,7 @@ export const Reptile = () => {
     const [createFeedingTrigger, setCreateFeedingTrigger] = useState(false);
     const [createHusbandryTrigger, setCreateHusbandryTrigger] = useState(false);
     const [createScheduleTrigger, setCreateScheduleTrigger] = useState(false);
+    const [deleteTrigger, setDeleteTrigger] = useState(false);
     // objects
     const [reptile, setReptile] = useState(null);
     const [feedings, setFeedings] = useState([]);
@@ -52,6 +54,9 @@ export const Reptile = () => {
     const [saturday, setSaturday] = useState(false);
     const [sunday, setSunday] = useState(false);
     const [description, setDescription] = useState("");
+    // delte popup
+    const [deleteId, setDeleteId] = useState(0);
+    const [deleteType, setDeleteType] = useState("");
 
     useEffect(() => {
         getUser();
@@ -171,6 +176,44 @@ export const Reptile = () => {
 
     }
 
+    async function deleteSchedule(id) {
+        console.log("is this working?");
+        const res = await api.del( `/schedules/${id}`);
+        console.log(res);
+        getReptile();
+    }
+
+    async function deleteFeeding(id) {
+        const res = await api.del(`/feeding/${id}`);
+        getReptile();
+    }
+
+    async function deleteHusbandry(id) {
+        const res = await api.del(`/husbandry/${id}`);
+        getReptile();
+    }
+
+    function deleteRouter() {
+        if (deleteType == "feeding") {
+            deleteFeeding(deleteId);
+        } else if (deleteType == "husbandry") {
+            deleteHusbandry(deleteId);
+        } else if (deleteType == "schedule") {
+            deleteSchedule(deleteId);
+        }
+        setDeleteTrigger(false);
+        setDeleteId(0);
+        setDeleteType("");
+    }
+
+    function openDeleteDialog(id, type) {
+        setDeleteTrigger(true);
+        setDeleteId(id);
+        setDeleteType(type);
+    }
+
+
+
     return (
         <>
             <div>{reptile && <h2>{reptile.name}</h2>}</div>
@@ -182,43 +225,63 @@ export const Reptile = () => {
             <div>
                 <h3>Feedings</h3>
             </div>
+            <div className="scroll">
                 {
                     feedings.map((feeding) => (
                         <FeedingList
                         key={feeding.id}
+                        id={feeding.id}
                         foodItem={feeding.foodItem}
                         createdAt={feeding.createdAt}
+                        delete={openDeleteDialog}
                         />
                     ))
                 }
-
+            </div>
             <div>
                 <h3>Husbandry Records</h3>
             </div>
+            <div className="scroll">
             {
                 husbandryRecords.map((record) => (
                     <HusbandryList
                     key={record.id}
+                    id={record.id}
                     temperature={record.temperature}
                     length={record.length}
                     weight={record.weight}
                     humidity={record.humidity}
                     createdAt={record.createdAt}
+                    delete={openDeleteDialog}
                     />
                 ))
             }
+            </div>
+
             <div>
                 <h3>Schedules</h3>
             </div>
+            <div className="scroll">
             {
                 schedules.map((schedule) => (
                     <ScheduleList
                     key={schedule.id}
-                    
+                    id={schedule.id}
+                    monday={schedule.monday}
+                    tuesday={schedule.tuesday}
+                    wednesday={schedule.wednesday}
+                    thursday={schedule.thursday}
+                    friday={schedule.friday}
+                    saturday={schedule.saturday}
+                    sunday={schedule.sunday}
+                    description={schedule.description}
+                    type={schedule.type}
+                    delete={openDeleteDialog}
                     />
                 ))
             }
 
+            </div>
 
             <ReptilePopup
             trigger={updateReptileTrigger}
@@ -273,6 +336,13 @@ export const Reptile = () => {
             setDescription={setDescription}
             />
 
+            <DeletePopup
+            trigger={deleteTrigger}
+            close={() => setDeleteTrigger(false)}
+            type={deleteType}
+            id={deleteId}
+            delete={deleteRouter}
+            />
         </>
     );
 }

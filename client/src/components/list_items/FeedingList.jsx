@@ -6,7 +6,7 @@ export default FeedingList;
 function FeedingList(props) {
     return (
         <>
-        <div className="stuff-box">
+        <div className="stuff-box" onClick={() => props.delete(props.id, "feeding")}>
             <h4>
                 Food item: {props.foodItem}
             </h4>
