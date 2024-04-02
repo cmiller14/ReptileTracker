@@ -200,6 +200,7 @@ export const Reptile = () => {
     }
 
     async function deleteReptile(id) {
+        console.log(id);
         const res = await api.del(`/reptiles/${id}`);
         navigate("/dashboard");
     }

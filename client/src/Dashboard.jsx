@@ -36,6 +36,7 @@ export const Dashboard = () => {
 
     async function getSchedules() {
         const {schedules} = await api.get(`/schedules/user/${user.id}`);
+        console.log(schedules);
         setSchedules(schedules);
     }
 
@@ -76,6 +77,12 @@ export const Dashboard = () => {
     useEffect(() => {
         getUser();
     }, []);
+
+    useEffect(() => {
+        if (user) {
+            getReptiles();
+        }
+    }, [reptileTrigger]);
 
     useEffect(() => {
         if (user) {

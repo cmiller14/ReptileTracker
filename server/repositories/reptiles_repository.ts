@@ -41,6 +41,21 @@ export class ReptilesRepository {
   }
 
   async deleteReptile(id: number) {
+    this.db.feeding.deleteMany({
+      where: {
+        reptileId: id
+      },
+    });
+    this.db.schedule.deleteMany({
+      where: {
+        reptileId: id
+      },
+    });
+    this.db.husbandryRecord.deleteMany({
+      where: {
+        reptileId: id
+      },
+    });
     return this.db.reptile.delete({
         where: {
             id: id,
