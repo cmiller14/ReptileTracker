@@ -10,12 +10,15 @@ import FeedingList from "./components/list_items/feedingList";
 import HusbandryList from "./components/list_items/husbandryList";
 import ScheduleList from "./components/list_items/scheduleList";
 import DeletePopup from "./components/list_items/DeletePopup";
+import { printSex, printSpecies } from "./utils/print_functions";
+import { useNavigate } from "react-router-dom";
 
 
 
 
 export const Reptile = () => {
     const location = useLocation();
+    const navigate = useNavigate();
 
     const api = useApi();
     requireLogin();
@@ -81,9 +84,12 @@ export const Reptile = () => {
 
     async function getReptile() {
         const path = location.pathname;
-        const reptileId = path.slice(-1);
+        const reptileId = path.split("/").pop();
         const {reptile} = await api.get(`/reptiles/${reptileId}`);
         setReptile(reptile);
+        setReptileSexUpdate("m");
+        setReptileSpeciesUpdate("ball_python");
+        setReptileNameUpdate(reptile.name);
     }
 
     async function getFeedings() {
@@ -104,7 +110,6 @@ export const Reptile = () => {
     async function getSchedules() {
         if (reptile) {
             const schedules = await api.get(`/schedules/reptile/${reptile.id}`);
-            console.log(schedules.schedule);
             setSchedules(schedules.schedule);
         }
     }
@@ -127,6 +132,9 @@ export const Reptile = () => {
             species: reptileSpeciesUpdate
         });
         setReptile(res.reptile);
+        setReptileSexUpdate("m");
+        setReptileSpeciesUpdate("ball_python");
+        setReptileNameUpdate(reptile.name);
     }
 
     async function createHusbandry() {
@@ -177,9 +185,7 @@ export const Reptile = () => {
     }
 
     async function deleteSchedule(id) {
-        console.log("is this working?");
         const res = await api.del( `/schedules/${id}`);
-        console.log(res);
         getReptile();
     }
 
@@ -193,6 +199,11 @@ export const Reptile = () => {
         getReptile();
     }
 
+    async function deleteReptile(id) {
+        const res = await api.del(`/reptiles/${id}`);
+        navigate("/dashboard");
+    }
+
     function deleteRouter() {
         if (deleteType == "feeding") {
             deleteFeeding(deleteId);
@@ -200,6 +211,8 @@ export const Reptile = () => {
             deleteHusbandry(deleteId);
         } else if (deleteType == "schedule") {
             deleteSchedule(deleteId);
+        } else if (deleteType == "reptile") {
+            deleteReptile(deleteId);
         }
         setDeleteTrigger(false);
         setDeleteId(0);
@@ -212,18 +225,26 @@ export const Reptile = () => {
         setDeleteType(type);
     }
 
+    function closeUpdateReptile() {
+        setUpdateReptileTrigger(false);
+        setReptileSexUpdate("m");
+        setReptileSpeciesUpdate("ball_python");
+        setReptileNameUpdate(reptile.name);
+    }
+
 
 
     return (
         <>
-            <div>{reptile && <h2>{reptile.name}</h2>}</div>
+            <div>{reptile && <h2 className="title-name">{reptile.name} - {printSpecies(reptile)} - {printSex(reptile)}</h2>}</div>
             <div>{reptile && <p>{reptile.description}</p>}</div>
             <button onClick={() => setUpdateReptileTrigger(true)}>Update Reptile</button>
             <button onClick={() => setCreateFeedingTrigger(true)}>Create Feeding</button>
             <button onClick={() => setCreateHusbandryTrigger(true)}>Create Husbandry Record</button>
             <button onClick={() => setCreateScheduleTrigger(true)}>Create Schedule</button>
+            <button onClick={() => openDeleteDialog(reptile.id, "reptile")}>Delete Reptile</button>
             <div>
-                <h3>Feedings</h3>
+                <h3 className="title-name">Feedings</h3>
             </div>
             <div className="scroll">
                 {
@@ -239,7 +260,7 @@ export const Reptile = () => {
                 }
             </div>
             <div>
-                <h3>Husbandry Records</h3>
+                <h3 className="title-name">Husbandry Records</h3>
             </div>
             <div className="scroll">
             {
@@ -259,7 +280,7 @@ export const Reptile = () => {
             </div>
 
             <div>
-                <h3>Schedules</h3>
+                <h3 className="title-name">Schedules</h3>
             </div>
             <div className="scroll">
             {
@@ -286,7 +307,7 @@ export const Reptile = () => {
             <ReptilePopup
             trigger={updateReptileTrigger}
             reptile={reptile}
-            close={()=> {setUpdateReptileTrigger(false)}}
+            close={()=> {closeUpdateReptile()}}
             name={reptileNameUpdate}
             sex={reptileSexUpdate}
             species={reptileSpeciesUpdate}

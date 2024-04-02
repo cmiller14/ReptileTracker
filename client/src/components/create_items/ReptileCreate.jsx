@@ -1,21 +1,18 @@
 import React from "react";
-export default ReptilePopup
+export default ReptileCreate
 
-function ReptilePopup(props) {
+function ReptileCreate(props) {
     return (props.trigger) ? (
         <>
         <div className="popup">
             <div className="popup-inner">
                 <h1>
-                    {props.reptile.name}
+                    New Reptile
                 </h1>
-                <h2>
-                    {props.reptile.descritpion}
-                </h2>
                 <form id="popup-pass">
                     
                     <label className="input-element">
-                        New Name:
+                        Name:
                         <input
                             type="text"
                             value={props.name}
@@ -23,14 +20,14 @@ function ReptilePopup(props) {
                         </input>
                     </label>
                     <label className="input-element">
-                        Change Sex:
+                        Sex:
                         <select onChange={e => props.setSex(e.target.value)}>
                                 <option value="m">Male</option>
                                 <option value="f">Female</option>
                         </select>
                     </label>
                     <label className="input-element">
-                        Change Species:
+                        Species:
                         <select onChange={e => props.setSpecies(e.target.value)}>
                                 <option value="ball_python">Ball Python</option>
                                 <option value="king_snake">King Snake</option>
@@ -41,7 +38,7 @@ function ReptilePopup(props) {
                     
                 </form>
                 <button onClick={() => props.close()}>Close</button>
-                <button onClick={() => props.update()}>Update</button>
+                <button onClick={() => props.create()}>Create</button>
             </div>
 
         </div>

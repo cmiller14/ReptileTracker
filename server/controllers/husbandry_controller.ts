@@ -9,26 +9,26 @@ export const buildHusbandryController = (husbandryRepository: HusbandryRepositor
     const router = Router();
   
     // create husbandry
-    router.post("/", async (req, res) => {
+    router.post("/", authMiddleware, async (req, res) => {
       const husbandry = await husbandryRepository.createHusbandry(req.body);
       res.json({ husbandry });
     });
 
     // update husbandry
-    router.put("/:husbandryId", async (req, res) => {
+    router.put("/:husbandryId", authMiddleware, async (req, res) => {
         const husbandry = await husbandryRepository.updateHusbandry(req.body);
         res.json({husbandry});
     });
 
     // delete husbandry
-    router.delete("/:husbandryId", async (req, res) => {
+    router.delete("/:husbandryId", authMiddleware, async (req, res) => {
         const husbandryId = Number(req.params['husbandryId']);
         const husbandry = await husbandryRepository.deleteHusbandry(husbandryId);
         res.json({husbandry});
     })
   
     // get husbandies for a reptile
-    router.get("/reptile/:reptileId", async (req, res) => {
+    router.get("/reptile/:reptileId", authMiddleware, async (req, res) => {
         const reptileId = Number(req.params['reptileId']);
         const records = await husbandryRepository.getHusbandryByReptile(reptileId);
         res.json({records});

@@ -7,7 +7,7 @@ export const requireLogin = () => {
   const navigate = useNavigate();
   useEffect(() => {
     if(!authToken) {
-      navigate("/login");
+      navigate("/");
     }
   }, [authToken])
 }

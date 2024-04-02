@@ -1,5 +1,5 @@
 import React from "react";
-import { printDate } from "../../utils/print_date";
+import { printDate } from "../../utils/print_functions";
 export default HusbandryList;
 
 function HusbandryList(props) {

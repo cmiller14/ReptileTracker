@@ -3,9 +3,6 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color: rgba(0, 0, 0, 0.87);
-  background-color: #242424;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -14,17 +11,44 @@
 
 label { display:block }
 
-body {
+html, body {
   margin: 0;
   background-color: #e6ffe6;
-  display: flex;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  width:100%,
 }
 
-table, th, td {
-  border: 1px solid;
+
+table {
+  width: 90%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-bottom: 20px; /* Add margin to match box styling */
+  background-color: #f9f9f9; /* Background color */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Drop shadow */
+  color: #041f0a;
+}
+
+th, td {
+  padding: 10px; /* Padding */
+  border-bottom: 1px solid #ccc; /* Bottom border */
+  border-right: 1px solid #ccc; /* Vertical border */
+}
+
+th {
+  background-color: #f7f7f7; /* Lighter background color for header */
+}
+
+tr:nth-child(even) {
+  background-color: #f7f7f7; /* Alternate row background color */
+}
+
+/* Hover effect for table rows */
+tr:hover {
+  background-color: #f2f2f2;
 }
 
 h1 {
@@ -70,6 +94,7 @@ button:focus-visible {
 	border-width: 2px;
 	border-style: solid;
 	background-color: grey;
+  width: 90%;
 }
 
 .popup {
@@ -127,9 +152,63 @@ button:focus-visible {
   overflow: scroll; 
   height: 300px; 
   border: 10px black solid; 
-  width: 100%;
+  width: 90%;
   padding: 2%; 
   margin: 0 auto; 
   white-space: nowrap; 
   font-size: large; 
 } 
+
+.title-name {
+  color: #041f0a; 
+  background-color: #f7f7f7; 
+  border: 1px solid #ccc; 
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  width: 90%
+}
+
+.navbar {
+  background-color: #333;
+  color: white;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  width: 90%;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  padding: 5px 10px;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+}
+
+.app-info-box {
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 90%;
+}
+
+.app-info-box h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.app-info-box p {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #666;
+}

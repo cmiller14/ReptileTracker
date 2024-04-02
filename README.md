@@ -1,5 +1,5 @@
-# USU CS 4610 Starter App
-You are welcome to use this app as a starting point for any projects in this course.
+# Reptile Tracker
+Welcome to the reptile tracker web app source code. The project is based off the starter app from CS4610 at USU.
 
 ## Setup
 ### Prerequisites

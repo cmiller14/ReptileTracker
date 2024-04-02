@@ -1,42 +1,14 @@
-import { useEffect, useState } from "react";
 import { useApi } from "./utils/use_api";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { setAuthToken } from "./store/application_slice";
-import { useCounter } from "./utils/use_counter";
-import { requireLogin } from "./utils/require_login";
 
 export const Home = () => {
-  requireLogin();
-  const [user, setUser] = useState(null);
   const api = useApi();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const {count, add, subtract} = useCounter();
-
-  async function getUser() {
-    const {user} = await api.get("/users/me");
-    setUser(user);
-  }
-
-  useEffect(() => {
-    getUser();
-  }, [])
-
-  function logout() {
-    dispatch(setAuthToken(null));
-  }
-
   return (
     <div>
-      <h1>I am on the home page!</h1>
-      <div>{user && <h1>Welcome, {user.firstName}</h1>}</div>
-      <button onClick={logout}>Logout</button>
-      <h1>{count}</h1>
-      <div>
-        <button onClick={add}>Increment</button>
-        <button>Decrement</button>
-      </div>
+      <div class="app-info-box">
+        <h2>Welcome to the Reptile Tracker!</h2>
+        <p>The reptile tracker allows you to keep track of all your personal reptiles. You can record feeding, cleaning, and size schedules for
+          your reptile. The applicaiton also tracks your reptiles growth and its diet.</p>
+    </div>
     </div>
   )
 }

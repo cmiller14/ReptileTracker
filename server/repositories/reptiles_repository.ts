@@ -4,6 +4,7 @@ export type CreateReptilePayload = {
   userId: number,
   name: string,
   sex: string,
+  species: string,
 }
 
 export type UpdateReptilePayload = {
@@ -28,12 +29,13 @@ export class ReptilesRepository {
     return this.instance;
   }
 
-  async createReptile({userId, name, sex}: CreateReptilePayload) {
+  async createReptile({userId, name, sex, species}: CreateReptilePayload) {
     return this.db.reptile.create({
       data: {
         userId: userId,
         name: name,
         sex: sex,
+        species: species,
       }
     });
   }

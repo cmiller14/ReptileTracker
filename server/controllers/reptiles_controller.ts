@@ -7,7 +7,7 @@ export const buildReptilesController = (reptilesRepository: ReptilesRepository) 
   const router = Router();
 
   // create a reptile
-  router.post("/", async (req, res) => {
+  router.post("/", authMiddleware, async (req, res) => {
     const reptile = await reptilesRepository.createReptile(req.body);
     res.json({reptile});
   });
@@ -20,24 +20,23 @@ export const buildReptilesController = (reptilesRepository: ReptilesRepository) 
   });
 
   // update a reptile
-  router.put("/:reptileId", async (req, res) => {
+  router.put("/:reptileId", authMiddleware, async (req, res) => {
     const reptile = await reptilesRepository.updateReptile(req.body);
     res.json({reptile});
   });
 
   // get a specific reptile
-  router.get("/:reptileId", async (req, res) => {
+  router.get("/:reptileId", authMiddleware, async (req, res) => {
     const reptileId = Number(req.params['reptileId']);
     const reptile = await reptilesRepository.getReptileById(reptileId)
     res.json({ reptile });
   });
 
   // get all reptiles for a user
-  router.get("/user/:userId", async (req, res) => {
+  router.get("/user/:userId", authMiddleware, async (req, res) => {
     //TODO: may need to check if the req.user.id matches the userId param
     const userId = Number(req.params['userId']);
     const reptiles = await reptilesRepository.getUserReptiles(userId);
-    console.log(reptiles);
     res.json({reptiles});
   });
 
