@@ -13,7 +13,7 @@ export const buildReptilesController = (reptilesRepository: ReptilesRepository) 
   });
 
   // delete a reptile
-  router.delete("/:reptileId", async (req, res) => {
+  router.delete("/:reptileId", authMiddleware, async (req, res) => {
     const reptileId = Number(req.params['reptileId']);
     const deleted = await reptilesRepository.deleteReptile(reptileId);
     res.json({deleted});
